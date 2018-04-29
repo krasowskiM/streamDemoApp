@@ -11,7 +11,14 @@
     <span>{{defaultResponse.id}}
             {{defaultResponse.responseDate}}
     </span>
+    <span ng-if="remoteData !== null">
+        {{remoteData}}
+    </span>
     <br>
-    <video autoplay></video>
+    <video id="remoteVideo" controls></video>
+
+    <script type="text/javascript">
+            remoteVideo = document.getElementById('remoteVideo');
+    </script>
 </body>
 </html>
