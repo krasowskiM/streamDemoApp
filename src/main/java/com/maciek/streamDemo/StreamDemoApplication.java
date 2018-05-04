@@ -24,6 +24,6 @@ public class StreamDemoApplication implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(rtcCommunicationHandler, "/enableSocketConnection").setAllowedOrigins("*");
+        registry.addHandler(rtcCommunicationHandler, "/webRTCHandler").setAllowedOrigins("*");
     }
 }

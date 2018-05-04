@@ -11,9 +11,11 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Component
 public class WebRTCCommunicationHandler extends TextWebSocketHandler {
@@ -21,7 +23,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String PRESENTER = "presenter";
     private static final String VIEWER = "viewer";
     private static final String HELLO_MESSAGE = "helloMessage";
-    private Map<String, WebSocketSession> sessions = new HashMap<>();
+    private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     @Autowired
     WebRTCCommunicationHandler() {
@@ -45,18 +47,26 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         String id = session.getId();
         WebSocketSession presenter = sessions.get(PRESENTER);
         WebSocketSession viewer = sessions.get(VIEWER);
-        if(presenter != null && presenter.getId().equals(id)){
+        if (presenter != null && presenter.getId().equals(id)) {
             System.out.println("Sending to viewer");
             viewer.sendMessage(message);
             //viewer -> presenter
-        } else if(presenter != null && viewer != null && viewer.getId().equals(id)){
+        } else if (presenter != null && viewer != null && viewer.getId().equals(id)) {
             System.out.println("Sending to presenter");
             presenter.sendMessage(message);
         }
-        //no echo
     }
 
     private void addSession(String sessionName, WebSocketSession session) {
         this.sessions.put(sessionName, session);
+    }
+
+    private List<WebSocketSession> getAllViewers() {
+        Set<Map.Entry<String, WebSocketSession>> sessionEntries = sessions.entrySet();
+        return sessionEntries
+                .stream()
+                .filter(entry -> VIEWER.equals(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }
