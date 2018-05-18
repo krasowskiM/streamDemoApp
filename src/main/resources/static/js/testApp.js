@@ -1,11 +1,12 @@
 var testApp = angular.module('testApp', []);
 var remoteVideo;
-var peerConnectionConfig = {iceServers: [{urls: 'stun:stun.l.google.com:19302?transport=udp'}]};
-var peerConnection = new webkitRTCPeerConnection(peerConnectionConfig);
+var peerConnectionConfig = {iceServers: [{urls: 'stun:stun.l.google.com:19302?transport=udp'},
+{urls: 'turn:numb.viagenie.ca:3478?transport=udp', username: 'macris120@gmail.com', credential: 'admin1'}]};
+var peerConnection = new RTCPeerConnection(peerConnectionConfig);
 //local
-//var socket = new WebSocket('wss://localhost:8443/webRTCHandler');
+var socket = new WebSocket('wss://localhost:8443/webRTCHandler');
 //prod
-var socket = new WebSocket('wss://stream-support.herokuapp.com:8443/webRTCHandler');
+//var socket = new WebSocket('wss://stream-support.herokuapp.com:8443/webRTCHandler');
         socket.onopen = function(){
             socket.send(JSON.stringify({helloMessage: "viewer"}));
         };
