@@ -6,7 +6,7 @@ var peerConnection = new RTCPeerConnection(peerConnectionConfig);
 //local
 //var socket = new WebSocket('wss://localhost:8443/webRTCHandler');
 //prod
-var socket = new WebSocket('ws://stream-support.herokuapp.com/webRTCHandler');
+var socket = new WebSocket('wss://stream-support.herokuapp.com/webRTCHandler');
         socket.onopen = function(){
             socket.send(JSON.stringify({helloMessage: "viewer"}));
         };
