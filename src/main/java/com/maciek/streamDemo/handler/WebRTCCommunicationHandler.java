@@ -23,10 +23,11 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String PRESENTER = "presenter";
     private static final String VIEWER = "viewer";
     private static final String HELLO_MESSAGE = "helloMessage";
-    private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+    private Map<String, WebSocketSession> sessions;
 
     @Autowired
     WebRTCCommunicationHandler() {
+        this.sessions = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -35,14 +36,16 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         String payload = jsonObject.toString();
         System.out.println(String.format("Incoming message: {%s}", payload));
         JsonElement helloMessage = jsonObject.get(HELLO_MESSAGE);
-        if (helloMessage != null && helloMessage.getAsString().equals(PRESENTER)) {
-            System.out.println("Adding presenter");
-            addSession(PRESENTER, session);
-        } else if (helloMessage != null && helloMessage.getAsString().equals(VIEWER)) {
-            System.out.println("Adding viewer");
-            addSession(VIEWER, session);
+        if (helloMessage != null) {
+            String helloMessageAsString = helloMessage.getAsString();
+            if (helloMessageAsString.equals(PRESENTER)) {
+                System.out.println("Adding presenter");
+                addSession(PRESENTER, session);
+            } else if (helloMessageAsString.startsWith(VIEWER)) {
+                System.out.println("Adding viewer");
+                addSession(helloMessageAsString, session);
+            }
         }
-
         //presenter -> viewer
         String id = session.getId();
         WebSocketSession presenter = sessions.get(PRESENTER);
