@@ -13,6 +13,13 @@ var socket = new WebSocket('ws://stream-support.herokuapp.com/webRTCHandler');
 socket.onmessage = gotMessageFromServer;
 peerConnection.onaddstream = gotRemoteStream;
 
+testApp.controller('mainController', function($scope, $http){
+    $http.get('/getResponse')
+    .then(function(response){
+        $scope.defaultResponse = response.data;
+    });
+
+});
 
 function gotRemoteStream(event) {
     console.log('got remote stream');
