@@ -25,10 +25,10 @@
 	</properties>
 
 	<dependencies>
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -53,6 +53,12 @@
 			<artifactId>spring-boot</artifactId>
 			<version>1.5.10.RELEASE</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.12</version>
+		</dependency>
 
 	</dependencies>
 
@@ -61,6 +67,25 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>5.2.0</version>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/dbprojektor?serverTimezone=Europe/Warsaw</url>
+					<user>flyway</user>
+					<password>flyway</password>
+					<schemas>
+						<schema>dbprojektor</schema>
+					</schemas>
+					<locations>
+						<location>resources/dbmigrations</location>
+					</locations>
+					<table>schema_history</table>
+					<sqlMigrationPrefix>Version</sqlMigrationPrefix>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
