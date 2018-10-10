@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema dbProjektor
+-- Schema dbprojektor
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema dbProjektor
+-- Schema dbprojektor
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `dbProjektor` DEFAULT CHARACTER SET utf8 ;
-USE `dbProjektor` ;
+CREATE SCHEMA IF NOT EXISTS `dbprojektor` DEFAULT CHARACTER SET utf8mb4 ;
+USE `dbprojektor` ;
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`StudentGroups`
+-- Table `dbprojektor`.`StudentGroups`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`StudentGroups` ;
+DROP TABLE IF EXISTS `dbprojektor`.`StudentGroups` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`StudentGroups` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`StudentGroups` (
   `idStudentGroup` INT NOT NULL AUTO_INCREMENT,
   `RokRozpoczecia` DATE NOT NULL,
   `Nazwa_StudentGrups` VARCHAR(45) NOT NULL,
@@ -31,12 +31,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`StudentWykladowca`
+-- Table `dbprojektor`.`StudentWykladowca`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`StudentWykladowca` ;
+DROP TABLE IF EXISTS `dbprojektor`.`StudentWykladowca` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`StudentWykladowca` (
-  `id_StudentWykladowca` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`StudentWykladowca` (
+  `id_StudentWykladowca` INT NOT NULL AUTO_INCREMENT,
   `id_StudentGroups` INT NULL,
   `Login` VARCHAR(45) NOT NULL,
   `Password` VARCHAR(45) NOT NULL,
@@ -48,18 +48,18 @@ CREATE TABLE IF NOT EXISTS `dbProjektor`.`StudentWykladowca` (
   INDEX `fk_Studenci_StudentGrups1_idx` (`id_StudentGroups` ASC),
   CONSTRAINT `fk_Studenci_StudentGrups1`
     FOREIGN KEY (`id_StudentGroups`)
-    REFERENCES `dbProjektor`.`StudentGroups` (`idStudentGroup`)
+    REFERENCES `dbprojektor`.`StudentGroups` (`idStudentGroup`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Przedmiot`
+-- Table `dbprojektor`.`Przedmiot`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Przedmiot` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Przedmiot` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Przedmiot` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Przedmiot` (
   `id_Przedmiot` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_Przedmiot`))
@@ -67,11 +67,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Pytania`
+-- Table `dbprojektor`.`Pytania`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Pytania` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Pytania` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Pytania` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Pytania` (
   `id_Pytania` INT NOT NULL,
   `Tekst Pytania` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_Pytania`))
@@ -79,24 +79,24 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Odopwiedzi`
+-- Table `dbprojektor`.`Odopwiedzi`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Odopwiedzi` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Odopwiedzi` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Odopwiedzi` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Odopwiedzi` (
   `id_Odpowiedzi` INT NOT NULL,
   `Odpowiedz` VARCHAR(45) NOT NULL,
-  `Czy_prawidłowa` TINYINT NOT NULL,
+  `Czy_prawidlowa` TINYINT NOT NULL,
   PRIMARY KEY (`id_Odpowiedzi`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Testy`
+-- Table `dbprojektor`.`Testy`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Testy` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Testy` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Testy` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Testy` (
   `id_Test` INT NOT NULL AUTO_INCREMENT,
   `Pytania_idPytania` INT NOT NULL,
   `Odopwiedzi_idPytania` INT NOT NULL,
@@ -106,23 +106,23 @@ CREATE TABLE IF NOT EXISTS `dbProjektor`.`Testy` (
   INDEX `fk_Testy_Odopwiedzi1_idx` (`Odopwiedzi_idPytania` ASC),
   CONSTRAINT `fk_Testy_Pytania1`
     FOREIGN KEY (`Pytania_idPytania`)
-    REFERENCES `dbProjektor`.`Pytania` (`id_Pytania`)
+    REFERENCES `dbprojektor`.`Pytania` (`id_Pytania`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Testy_Odopwiedzi1`
     FOREIGN KEY (`Odopwiedzi_idPytania`)
-    REFERENCES `dbProjektor`.`Odopwiedzi` (`id_Odpowiedzi`)
+    REFERENCES `dbprojektor`.`Odopwiedzi` (`id_Odpowiedzi`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Oceny`
+-- Table `dbprojektor`.`Oceny`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Oceny` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Oceny` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Oceny` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Oceny` (
   `id_Ocena` INT NOT NULL AUTO_INCREMENT,
   `Procent_odpowiedzi` INT NOT NULL,
   PRIMARY KEY (`id_Ocena`))
@@ -130,11 +130,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Odpowiedz_student`
+-- Table `dbprojektor`.`Odpowiedz_student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Odpowiedz_student` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Odpowiedz_student` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Odpowiedz_student` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Odpowiedz_student` (
   `id_odpo_test` INT NOT NULL AUTO_INCREMENT,
   `Studenci_id_Student` INT NOT NULL,
   `Opowiedz_wskazana` TINYINT NOT NULL,
@@ -146,76 +146,76 @@ CREATE TABLE IF NOT EXISTS `dbProjektor`.`Odpowiedz_student` (
   INDEX `fk_Odpowiedz_student_Oceny1_idx` (`Oceny_id_Ocena` ASC),
   CONSTRAINT `fk_Odp_Test_Studenci1`
     FOREIGN KEY (`Studenci_id_Student`)
-    REFERENCES `dbProjektor`.`StudentWykladowca` (`id_StudentWykladowca`)
+    REFERENCES `dbprojektor`.`StudentWykladowca` (`id_StudentWykladowca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Odpowiedz_student_Testy1`
     FOREIGN KEY (`Testy_id_Test`)
-    REFERENCES `dbProjektor`.`Testy` (`id_Test`)
+    REFERENCES `dbprojektor`.`Testy` (`id_Test`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Odpowiedz_student_Oceny1`
     FOREIGN KEY (`Oceny_id_Ocena`)
-    REFERENCES `dbProjektor`.`Oceny` (`id_Ocena`)
+    REFERENCES `dbprojektor`.`Oceny` (`id_Ocena`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Zajęcia`
+-- Table `dbprojektor`.`Zajecia`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Zajęcia` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Zajecia` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Zajęcia` (
-  `id_Zajęcia` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia` (
+  `id_Zajecia` INT NOT NULL AUTO_INCREMENT,
   `id_Przedmiot` INT NOT NULL,
   `id_StudentGroup` INT NOT NULL,
   `Data` DATE NOT NULL,
   `Obecnosc` TINYINT NOT NULL,
   `id_StudentWykladowca` INT NOT NULL,
-  PRIMARY KEY (`id_Zajęcia`),
-  INDEX `fk_Zajęcia_Przedmiot1_idx` (`id_Przedmiot` ASC),
-  INDEX `fk_Zajęcia_StudentGroups1_idx` (`id_StudentGroup` ASC),
-  INDEX `fk_Zajęcia_StudentWykladowca1_idx` (`id_StudentWykladowca` ASC),
-  CONSTRAINT `fk_Zajęcia_Przedmiot1`
+  PRIMARY KEY (`id_Zajecia`),
+  INDEX `fk_Zajecia_Przedmiot1_idx` (`id_Przedmiot` ASC),
+  INDEX `fk_Zajecia_StudentGroups1_idx` (`id_StudentGroup` ASC),
+  INDEX `fk_Zajecia_StudentWykladowca1_idx` (`id_StudentWykladowca` ASC),
+  CONSTRAINT `fk_Zajecia_Przedmiot1`
     FOREIGN KEY (`id_Przedmiot`)
-    REFERENCES `dbProjektor`.`Przedmiot` (`id_Przedmiot`)
+    REFERENCES `dbprojektor`.`Przedmiot` (`id_Przedmiot`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Zajęcia_StudentGroups1`
+  CONSTRAINT `fk_Zajecia_StudentGroups1`
     FOREIGN KEY (`id_StudentGroup`)
-    REFERENCES `dbProjektor`.`StudentGroups` (`idStudentGroup`)
+    REFERENCES `dbprojektor`.`StudentGroups` (`idStudentGroup`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Zajęcia_StudentWykladowca1`
+  CONSTRAINT `fk_Zajecia_StudentWykladowca1`
     FOREIGN KEY (`id_StudentWykladowca`)
-    REFERENCES `dbProjektor`.`StudentWykladowca` (`id_StudentWykladowca`)
+    REFERENCES `dbprojektor`.`StudentWykladowca` (`id_StudentWykladowca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbProjektor`.`Zajecia_has_Testy`
+-- Table `dbprojektor`.`Zajecia_has_Testy`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbProjektor`.`Zajecia_has_Testy` ;
+DROP TABLE IF EXISTS `dbprojektor`.`Zajecia_has_Testy` ;
 
-CREATE TABLE IF NOT EXISTS `dbProjektor`.`Zajecia_has_Testy` (
+CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia_has_Testy` (
   `id_Zajecia_has_Testy` INT NOT NULL AUTO_INCREMENT,
-  `Zajęcia_id_Zajęcia` INT NOT NULL,
+  `Zajecia_id_Zajecia` INT NOT NULL,
   `Testy_id_Test` INT NOT NULL,
   PRIMARY KEY (`id_Zajecia_has_Testy`),
-  INDEX `fk_Zajecia_has_Testy_Zajęcia1_idx` (`Zajęcia_id_Zajęcia` ASC),
+  INDEX `fk_Zajecia_has_Testy_Zajecia1_idx` (`Zajecia_id_Zajecia` ASC),
   INDEX `fk_Zajecia_has_Testy_Testy1_idx` (`Testy_id_Test` ASC),
-  CONSTRAINT `fk_Zajecia_has_Testy_Zajęcia1`
-    FOREIGN KEY (`Zajęcia_id_Zajęcia`)
-    REFERENCES `dbProjektor`.`Zajęcia` (`id_Zajęcia`)
+  CONSTRAINT `fk_Zajecia_has_Testy_Zajecia1`
+    FOREIGN KEY (`Zajecia_id_Zajecia`)
+    REFERENCES `dbprojektor`.`Zajecia` (`id_Zajecia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Zajecia_has_Testy_Testy1`
     FOREIGN KEY (`Testy_id_Test`)
-    REFERENCES `dbProjektor`.`Testy` (`id_Test`)
+    REFERENCES `dbprojektor`.`Testy` (`id_Test`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
