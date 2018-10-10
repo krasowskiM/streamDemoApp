@@ -1,4 +1,4 @@
-INSERT INTO `dbprojektor`.`StudentGroups`
+INSERT INTO `dbprojektor`.`student_groups`
 (
 `RokRozpoczecia`,
 `Nazwa_StudentGrups`)
@@ -7,9 +7,9 @@ VALUES
 '2018-10-04',
 'test_grupa');
 
-INSERT INTO `dbprojektor`.`StudentWykladowca`
+INSERT INTO `dbprojektor`.`student_wykladowca`
 (
-`id_StudentGroups`,
+`id_student_groups`,
 `Login`,
 `Password`,
 `Nazwisko`,

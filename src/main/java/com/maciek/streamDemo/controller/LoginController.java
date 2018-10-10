@@ -1,23 +1,30 @@
 package com.maciek.streamDemo.controller;
 
-import com.maciek.streamDemo.LoginStatus;
+import com.maciek.streamDemo.request.LoginRequest;
 import com.maciek.streamDemo.response.DefaultResponse;
 import com.maciek.streamDemo.response.LoginResponse;
+import com.maciek.streamDemo.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 @RestController
 public class LoginController {
+    private final LoginService loginService;
+
+    @Autowired
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping("/login")
-    public LoginResponse login(){
-        return new LoginResponse(LoginStatus.OK, new Date());
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return loginService.tryLogUser(loginRequest);
     }
 
     @PostMapping("/logout")
-    public DefaultResponse logout(){
+    public DefaultResponse logout() {
         return new DefaultResponse("Logged out");
     }
 }
