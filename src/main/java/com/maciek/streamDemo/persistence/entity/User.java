@@ -84,4 +84,14 @@ public class User {
     public void setIndexNumber(String indexNumber) {
         this.indexNumber = indexNumber;
     }
+
+    public User withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public User withPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

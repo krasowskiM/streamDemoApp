@@ -20,14 +20,14 @@ public class LoginService {
     }
 
     public LoginResponse tryLogUser(LoginRequest loginRequest) {
-        String login = loginRequest.getLogin();
+        String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
-        User userByLogin = userRepository.findByLogin(login);
+        User userByEmail = userRepository.findByEmail(email);
         LoginResponse loginResponse;
-        if (userByLogin == null) {
-            loginResponse = new LoginResponse(LoginStatus.INVALID_USERNAME, new Date());
+        if (userByEmail == null) {
+            loginResponse = new LoginResponse(LoginStatus.INVALID_EMAIL, new Date());
         } else {
-            String passwordFromEntity = userByLogin.getPassword();
+            String passwordFromEntity = userByEmail.getPassword();
             if (passwordFromEntity.equals(password)) {
                 loginResponse = new LoginResponse(LoginStatus.OK, new Date());
             } else {
