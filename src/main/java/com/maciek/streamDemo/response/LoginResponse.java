@@ -21,4 +21,9 @@ public class LoginResponse {
     public Date getLoginDate() {
         return loginDate;
     }
+
+    @Override
+    public String toString() {
+        return "[" + "login status=" + this.loginStatus.name() + ", login date=" + this.loginDate.toString() + "]";
+    }
 }

@@ -31,6 +31,6 @@ public class LoginRequest {
 
     @Override
     public String toString() {
-        return "[ login =" + this.login + ", password =" + this.password + ", email =" + this.email;
+        return "[ login=" + this.login + ", password=" + this.password + ", email=" + this.email + " ]";
     }
 }

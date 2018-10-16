@@ -38,6 +38,7 @@ public class LoginService {
                 loginResponse = new LoginResponse(LoginStatus.INVALID_PASSWORD, new Date());
             }
         }
+        LOGGER.info("Login response: " + loginResponse.toString());
         return loginResponse;
     }
 }
