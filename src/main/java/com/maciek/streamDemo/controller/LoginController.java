@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:4200", "https://projector-44498.firebaseapp.com"}, maxAge = 3600)
 @RestController
 public class LoginController {
     private final LoginService loginService;
