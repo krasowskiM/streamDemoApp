@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.PingMessage;
-import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -36,17 +34,6 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     }
 
     @Override
-    protected void handlePongMessage(WebSocketSession session, PongMessage message) {
-        this.sessions.values().forEach(webSocketSession -> {
-            try {
-                webSocketSession.sendMessage(new PingMessage());
-            } catch (IOException e) {
-                LOGGER.error("Exception on sending ping message", e);
-            }
-        });
-    }
-
-    @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         JsonObject jsonObject = GSON.fromJson(message.getPayload(), JsonObject.class);
         String payload = jsonObject.toString();
@@ -67,8 +54,10 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         WebSocketSession presenter = sessions.get(PRESENTER);
         WebSocketSession viewer = sessions.get(VIEWER);
         if (presenter != null && presenter.getId().equals(id)) {
-            System.out.println("Sending to viewer");
-            viewer.sendMessage(message);
+            System.out.println("Sending to viewers");
+            for (WebSocketSession viewerSession : getAllViewers()) {
+                viewerSession.sendMessage(message);
+            }
             //viewer -> presenter
         } else if (presenter != null && viewer != null && viewer.getId().equals(id)) {
             System.out.println("Sending to presenter");
