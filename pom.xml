@@ -77,16 +77,21 @@
 					<driver>com.mysql.cj.jdbc.Driver</driver>
 					<!--<url>jdbc:mysql://localhost:3306?serverTimezone=Europe/Warsaw</url>-->
 					<!--remote test-->
-					<url>jdbc:mysql://db4free.net:3306/dbprojektor?serverTimezone=Europe/Warsaw</url>
-					<user>flyway</user>
+					<!--<url>jdbc:mysql://db4free.net:3306/dbprojektor?serverTimezone=Europe/Warsaw</url>-->
+					<url>jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7266199?serverTimezone=Europe/Warsaw</url>
+					<!--<user>flyway</user>-->
+					<user>sql7266199</user>
 					<!--<password>flyway</password>-->
 					<!--remote test-->
-					<password>flywayDb123</password>
+					<!--<password>flywayDb123</password>-->
+					<password>HnFgKh7eeP</password>
 					<schemas>
-						<schema>dbprojektor</schema>
+						<!--<schema>dbprojektor</schema>-->
+						<schema>sql7266199</schema>
 					</schemas>
 					<locations>
-						<location>dbmigrations</location>
+						<!--<location>dbmigrations</location>-->
+						<location>freemysqlhosting_migrations</location>
 					</locations>
 					<table>schema_history</table>
 					<sqlMigrationPrefix>Version</sqlMigrationPrefix>
