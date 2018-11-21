@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema dbprojektor
+-- Schema streamap_dbprojektor
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema dbprojektor
+-- Schema streamap_dbprojektor
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `dbprojektor` DEFAULT CHARACTER SET utf8mb4 ;
-USE `dbprojektor` ;
+CREATE SCHEMA IF NOT EXISTS `streamap_dbprojektor` DEFAULT CHARACTER SET utf8mb4 ;
+USE `streamap_dbprojektor` ;
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`student_groups`
+-- Table `streamap_dbprojektor`.`student_groups`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`student_groups` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`student_groups` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`student_groups` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`student_groups` (
   `idStudentGroup` INT NOT NULL AUTO_INCREMENT,
   `RokRozpoczecia` DATE NOT NULL,
   `Nazwa_StudentGrups` VARCHAR(45) NOT NULL,
@@ -31,11 +31,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`student_wykladowca`
+-- Table `streamap_dbprojektor`.`student_wykladowca`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`student_wykladowca` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`student_wykladowca` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`student_wykladowca` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`student_wykladowca` (
   `id_student_wykladowca` INT NOT NULL AUTO_INCREMENT,
   `id_student_groups` INT NULL,
   `Login` VARCHAR(45) NOT NULL,
@@ -48,18 +48,18 @@ CREATE TABLE IF NOT EXISTS `dbprojektor`.`student_wykladowca` (
   INDEX `fk_Studenci_StudentGrups1_idx` (`id_student_groups` ASC),
   CONSTRAINT `fk_Studenci_StudentGrups1`
     FOREIGN KEY (`id_student_groups`)
-    REFERENCES `dbprojektor`.`student_groups` (`idStudentGroup`)
+    REFERENCES `streamap_dbprojektor`.`student_groups` (`idStudentGroup`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Przedmiot`
+-- Table `streamap_dbprojektor`.`Przedmiot`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Przedmiot` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Przedmiot` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Przedmiot` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Przedmiot` (
   `id_Przedmiot` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_Przedmiot`))
@@ -67,11 +67,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Pytania`
+-- Table `streamap_dbprojektor`.`Pytania`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Pytania` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Pytania` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Pytania` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Pytania` (
   `id_Pytania` INT NOT NULL,
   `Tekst Pytania` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_Pytania`))
@@ -79,11 +79,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Odopwiedzi`
+-- Table `streamap_dbprojektor`.`Odopwiedzi`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Odopwiedzi` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Odopwiedzi` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Odopwiedzi` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Odopwiedzi` (
   `id_Odpowiedzi` INT NOT NULL,
   `Odpowiedz` VARCHAR(45) NOT NULL,
   `Czy_prawidlowa` TINYINT NOT NULL,
@@ -92,11 +92,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Testy`
+-- Table `streamap_dbprojektor`.`Testy`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Testy` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Testy` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Testy` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Testy` (
   `id_Test` INT NOT NULL AUTO_INCREMENT,
   `Pytania_idPytania` INT NOT NULL,
   `Odopwiedzi_idPytania` INT NOT NULL,
@@ -106,23 +106,23 @@ CREATE TABLE IF NOT EXISTS `dbprojektor`.`Testy` (
   INDEX `fk_Testy_Odopwiedzi1_idx` (`Odopwiedzi_idPytania` ASC),
   CONSTRAINT `fk_Testy_Pytania1`
     FOREIGN KEY (`Pytania_idPytania`)
-    REFERENCES `dbprojektor`.`Pytania` (`id_Pytania`)
+    REFERENCES `streamap_dbprojektor`.`Pytania` (`id_Pytania`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Testy_Odopwiedzi1`
     FOREIGN KEY (`Odopwiedzi_idPytania`)
-    REFERENCES `dbprojektor`.`Odopwiedzi` (`id_Odpowiedzi`)
+    REFERENCES `streamap_dbprojektor`.`Odopwiedzi` (`id_Odpowiedzi`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Oceny`
+-- Table `streamap_dbprojektor`.`Oceny`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Oceny` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Oceny` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Oceny` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Oceny` (
   `id_Ocena` INT NOT NULL AUTO_INCREMENT,
   `Procent_odpowiedzi` INT NOT NULL,
   PRIMARY KEY (`id_Ocena`))
@@ -130,11 +130,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Odpowiedz_student`
+-- Table `streamap_dbprojektor`.`Odpowiedz_student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Odpowiedz_student` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Odpowiedz_student` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Odpowiedz_student` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Odpowiedz_student` (
   `id_odpo_test` INT NOT NULL AUTO_INCREMENT,
   `Studenci_id_Student` INT NOT NULL,
   `Opowiedz_wskazana` TINYINT NOT NULL,
@@ -146,28 +146,28 @@ CREATE TABLE IF NOT EXISTS `dbprojektor`.`Odpowiedz_student` (
   INDEX `fk_Odpowiedz_student_Oceny1_idx` (`Oceny_id_Ocena` ASC),
   CONSTRAINT `fk_Odp_Test_Studenci1`
     FOREIGN KEY (`Studenci_id_Student`)
-    REFERENCES `dbprojektor`.`student_wykladowca` (`id_student_wykladowca`)
+    REFERENCES `streamap_dbprojektor`.`student_wykladowca` (`id_student_wykladowca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Odpowiedz_student_Testy1`
     FOREIGN KEY (`Testy_id_Test`)
-    REFERENCES `dbprojektor`.`Testy` (`id_Test`)
+    REFERENCES `streamap_dbprojektor`.`Testy` (`id_Test`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Odpowiedz_student_Oceny1`
     FOREIGN KEY (`Oceny_id_Ocena`)
-    REFERENCES `dbprojektor`.`Oceny` (`id_Ocena`)
+    REFERENCES `streamap_dbprojektor`.`Oceny` (`id_Ocena`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Zajecia`
+-- Table `streamap_dbprojektor`.`Zajecia`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Zajecia` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Zajecia` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Zajecia` (
   `id_Zajecia` INT NOT NULL AUTO_INCREMENT,
   `id_Przedmiot` INT NOT NULL,
   `id_StudentGroup` INT NOT NULL,
@@ -180,28 +180,28 @@ CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia` (
   INDEX `fk_Zajecia_student_wykladowca1_idx` (`id_student_wykladowca` ASC),
   CONSTRAINT `fk_Zajecia_Przedmiot1`
     FOREIGN KEY (`id_Przedmiot`)
-    REFERENCES `dbprojektor`.`Przedmiot` (`id_Przedmiot`)
+    REFERENCES `streamap_dbprojektor`.`Przedmiot` (`id_Przedmiot`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Zajecia_student_groups1`
     FOREIGN KEY (`id_StudentGroup`)
-    REFERENCES `dbprojektor`.`student_groups` (`idStudentGroup`)
+    REFERENCES `streamap_dbprojektor`.`student_groups` (`idStudentGroup`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Zajecia_student_wykladowca1`
     FOREIGN KEY (`id_student_wykladowca`)
-    REFERENCES `dbprojektor`.`student_wykladowca` (`id_student_wykladowca`)
+    REFERENCES `streamap_dbprojektor`.`student_wykladowca` (`id_student_wykladowca`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dbprojektor`.`Zajecia_has_Testy`
+-- Table `streamap_dbprojektor`.`Zajecia_has_Testy`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dbprojektor`.`Zajecia_has_Testy` ;
+DROP TABLE IF EXISTS `streamap_dbprojektor`.`Zajecia_has_Testy` ;
 
-CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia_has_Testy` (
+CREATE TABLE IF NOT EXISTS `streamap_dbprojektor`.`Zajecia_has_Testy` (
   `id_Zajecia_has_Testy` INT NOT NULL AUTO_INCREMENT,
   `Zajecia_id_Zajecia` INT NOT NULL,
   `Testy_id_Test` INT NOT NULL,
@@ -210,12 +210,12 @@ CREATE TABLE IF NOT EXISTS `dbprojektor`.`Zajecia_has_Testy` (
   INDEX `fk_Zajecia_has_Testy_Testy1_idx` (`Testy_id_Test` ASC),
   CONSTRAINT `fk_Zajecia_has_Testy_Zajecia1`
     FOREIGN KEY (`Zajecia_id_Zajecia`)
-    REFERENCES `dbprojektor`.`Zajecia` (`id_Zajecia`)
+    REFERENCES `streamap_dbprojektor`.`Zajecia` (`id_Zajecia`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Zajecia_has_Testy_Testy1`
     FOREIGN KEY (`Testy_id_Test`)
-    REFERENCES `dbprojektor`.`Testy` (`id_Test`)
+    REFERENCES `streamap_dbprojektor`.`Testy` (`id_Test`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

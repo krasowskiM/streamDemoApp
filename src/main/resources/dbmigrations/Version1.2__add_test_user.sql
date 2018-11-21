@@ -1,4 +1,4 @@
-INSERT INTO `dbprojektor`.`student_groups`
+INSERT INTO `streamap_dbprojektor`.`student_groups`
 (
 `RokRozpoczecia`,
 `Nazwa_StudentGrups`)
@@ -7,7 +7,7 @@ VALUES
 '2018-10-04',
 'test_grupa');
 
-INSERT INTO `dbprojektor`.`student_wykladowca`
+INSERT INTO `streamap_dbprojektor`.`student_wykladowca`
 (
 `id_student_groups`,
 `Login`,
