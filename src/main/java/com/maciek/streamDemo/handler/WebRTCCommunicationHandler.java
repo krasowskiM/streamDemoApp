@@ -28,6 +28,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String PRESENTER = "presenter";
     private static final String VIEWER = "viewer";
     private static final String HELLO_MESSAGE = "helloMessage";
+    private static Long ID = 1L;
     private Map<String, WebSocketSession> sessions;
 
     @Autowired
@@ -59,21 +60,30 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
                 addSession(PRESENTER, session);
             } else if (helloMessageAsString.startsWith(VIEWER)) {
                 System.out.println("Adding viewer");
-                addSession(helloMessageAsString, session);
+                addSession(helloMessageAsString + ID, session);
+                ID++;
             }
         }
         //presenter -> viewer
         String id = session.getId();
-        WebSocketSession presenter = sessions.get(PRESENTER);
-        WebSocketSession viewer = sessions.get(VIEWER);
-        if (presenter != null && presenter.getId().equals(id)) {
-            System.out.println("Sending to viewer");
-            viewer.sendMessage(message);
-            //viewer -> presenter
-        } else if (presenter != null && viewer != null && viewer.getId().equals(id)) {
-            System.out.println("Sending to presenter");
-            presenter.sendMessage(message);
-        }
+        getAllViewers().forEach(viewerSession -> {
+            try {
+                if (!id.equals(viewerSession.getId())) {
+                    viewerSession.sendMessage(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        getAllPresenters().forEach(presenterSession -> {
+            try {
+                if (!id.equals(presenterSession.getId())) {
+                    presenterSession.sendMessage(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void addSession(String sessionName, WebSocketSession session) {
@@ -84,7 +94,16 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         Set<Map.Entry<String, WebSocketSession>> sessionEntries = sessions.entrySet();
         return sessionEntries
                 .stream()
-                .filter(entry -> VIEWER.equals(entry.getKey()))
+                .filter(entry -> entry.getKey().startsWith(VIEWER))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+    }
+
+    private List<WebSocketSession> getAllPresenters() {
+        Set<Map.Entry<String, WebSocketSession>> sessionEntries = sessions.entrySet();
+        return sessionEntries
+                .stream()
+                .filter(entry -> entry.getKey().startsWith(PRESENTER))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
