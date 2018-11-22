@@ -29,7 +29,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String VIEWER = "viewer";
     private static final String HELLO_MESSAGE = "helloMessage";
     private static final String BEAT_MESSAGE = "beatMessage";
-    public static final String OK = "OK";
+    private static final String OK = "OK";
     private static Long ID = 1L;
     private Map<String, WebSocketSession> sessions;
 
@@ -53,7 +53,6 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         JsonObject jsonObject = GSON.fromJson(message.getPayload(), JsonObject.class);
         String payload = jsonObject.toString();
-        System.out.println(String.format("Incoming message: {%s}", payload));
         JsonElement helloMessage = jsonObject.get(HELLO_MESSAGE);
         JsonElement beatMessage = jsonObject.get(BEAT_MESSAGE);
         if (helloMessage != null) {
@@ -71,6 +70,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
             session.sendMessage(new TextMessage(OK));
             return;
         }
+        System.out.println(String.format("Incoming message: {%s}", payload));
         //presenter -> viewer
         String id = session.getId();
         getAllViewers().forEach(viewerSession -> {
