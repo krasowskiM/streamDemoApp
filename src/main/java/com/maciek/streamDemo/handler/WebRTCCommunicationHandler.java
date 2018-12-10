@@ -4,12 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.PingMessage;
-import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -23,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class WebRTCCommunicationHandler extends TextWebSocketHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebRTCCommunicationHandler.class);
     private static final Gson GSON = new GsonBuilder().create();
     private static final String PRESENTER = "presenter";
     private static final String VIEWER = "viewer";
@@ -31,22 +26,10 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String BEAT_MESSAGE = "beatMessage";
     private static final String OK = "OK";
     private static Long ID = 1L;
-    private Map<String, WebSocketSession> sessions;
+    private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     @Autowired
     WebRTCCommunicationHandler() {
-        this.sessions = new ConcurrentHashMap<>();
-    }
-
-    @Override
-    protected void handlePongMessage(WebSocketSession session, PongMessage message) {
-        this.sessions.values().forEach(webSocketSession -> {
-            try {
-                webSocketSession.sendMessage(new PingMessage());
-            } catch (IOException e) {
-                LOGGER.error("Exception on sending ping message", e);
-            }
-        });
     }
 
     @Override

@@ -23,6 +23,10 @@ public class RegisterResponse {
 
     @Override
     public String toString() {
-        return "[" + "login status=" + this.registerStatus.name() + ", login date=" + this.registerDate.toString() + "]";
+        return "[register status=" +
+                this.registerStatus.name() +
+                ", register date=" +
+                this.registerDate.toString() +
+                "]";
     }
 }

@@ -5,6 +5,8 @@ import com.maciek.streamDemo.persistence.entity.User;
 import com.maciek.streamDemo.persistence.repo.UserRepository;
 import com.maciek.streamDemo.request.RegisterRequest;
 import com.maciek.streamDemo.response.RegisterResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.Date;
 
 @Service
 public class RegisterService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterService.class);
     private final UserRepository userRepository;
 
     @Autowired
@@ -19,8 +22,8 @@ public class RegisterService {
         this.userRepository = userRepository;
     }
 
-
     public RegisterResponse register(RegisterRequest registerRequest) {
+        LOGGER.info("Register request: " + registerRequest.toString());
         String email = registerRequest.getEmail();
         String password = registerRequest.getPassword();
         String passwordRetype = registerRequest.getPasswordRetype();

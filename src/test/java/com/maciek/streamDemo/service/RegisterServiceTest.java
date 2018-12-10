@@ -13,8 +13,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RegisterServiceTest {
-    private static final RegisterRequest INVALID_DATA_REQUEST = new RegisterRequest("mail@mail.com", "123", "456");
-    private static final RegisterRequest VALID_DATA_REQUEST = new RegisterRequest("mail@mail.com", "123", "123");
+    private static final RegisterRequest INVALID_DATA_REQUEST = new RegisterRequest("mail@mail.com", "123", "456", "789");
+    private static final RegisterRequest VALID_DATA_REQUEST = new RegisterRequest("mail@mail.com", "123", "123", "789");
 
     @Mock
     private UserRepository userRepository;
