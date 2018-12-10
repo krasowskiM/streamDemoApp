@@ -58,7 +58,8 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         String id = session.getId();
         getAllViewers().forEach(viewerSession -> {
             try {
-                if (!id.equals(viewerSession.getId())) {
+                closeDanglingSession(viewerSession);
+                if (viewerSession.isOpen() && !id.equals(viewerSession.getId())) {
                     viewerSession.sendMessage(message);
                 }
             } catch (IOException e) {
@@ -67,13 +68,20 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
         });
         getAllPresenters().forEach(presenterSession -> {
             try {
-                if (!id.equals(presenterSession.getId())) {
+                closeDanglingSession(presenterSession);
+                if (presenterSession.isOpen() && !id.equals(presenterSession.getId())) {
                     presenterSession.sendMessage(message);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void closeDanglingSession(WebSocketSession webSocketSession) throws IOException {
+        if (!webSocketSession.isOpen()) {
+            webSocketSession.close();
+        }
     }
 
     private void addSession(String sessionName, WebSocketSession session) {
