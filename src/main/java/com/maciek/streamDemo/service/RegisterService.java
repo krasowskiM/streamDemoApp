@@ -27,10 +27,12 @@ public class RegisterService {
         String email = registerRequest.getEmail();
         String password = registerRequest.getPassword();
         String passwordRetype = registerRequest.getPasswordRetype();
+        String indexNumber = registerRequest.getIndexNumber();
         if (password.equals(passwordRetype)) {
             User registeringUser = new User();
             registeringUser.setEmail(email);
             registeringUser.setPassword(password);
+            registeringUser.setIndexNumber(indexNumber);
             userRepository.save(registeringUser);
             return new RegisterResponse(RegisterStatus.OK, new Date());
         } else {
