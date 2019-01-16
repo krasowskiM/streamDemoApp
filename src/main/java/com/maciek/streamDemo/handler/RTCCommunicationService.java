@@ -1,5 +1,6 @@
 package com.maciek.streamDemo.handler;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -19,10 +20,25 @@ class RTCCommunicationService {
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     void propagateMessages(WebSocketSession session, JsonObject messageObject) {
-        //presenter -> viewer
+        JsonElement sdp = messageObject.get("sdp");
         String fromId = session.getId();
         messageObject.addProperty("sessionId", fromId);
         TextMessage message = new TextMessage(messageObject.toString());
+        if (sdp != null) {
+            JsonObject sdpJsonObject = sdp.getAsJsonObject();
+            JsonElement type = sdpJsonObject.get("type");
+            if (type != null) {
+                String typeAsString = type.getAsString();
+                if ("answer".equals(typeAsString)) {
+                    propagateToPresenters(fromId, message);
+                    return;
+                } else {
+                    propagateToViewers(fromId, message);
+                    return;
+                }
+            }
+        }
+        //presenter -> viewer
         getAllViewers().forEach(viewerSession -> {
             try {
                 closeDanglingSession(viewerSession);
@@ -53,6 +69,32 @@ class RTCCommunicationService {
         if (!webSocketSession.isOpen()) {
             webSocketSession.close();
         }
+    }
+
+    private void propagateToPresenters(String fromId, TextMessage message) {
+        getAllPresenters().forEach(presenterSession -> {
+            try {
+                closeDanglingSession(presenterSession);
+                if (presenterSession.isOpen() && !fromId.equals(presenterSession.getId())) {
+                    presenterSession.sendMessage(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void propagateToViewers(String fromId, TextMessage message) {
+        getAllViewers().forEach(viewerSession -> {
+            try {
+                closeDanglingSession(viewerSession);
+                if (viewerSession.isOpen() && !fromId.equals(viewerSession.getId())) {
+                    viewerSession.sendMessage(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private List<WebSocketSession> getAllViewers() {
