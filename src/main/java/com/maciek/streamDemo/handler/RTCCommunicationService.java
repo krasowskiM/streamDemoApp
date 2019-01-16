@@ -22,7 +22,7 @@ class RTCCommunicationService {
         //presenter -> viewer
         String fromId = session.getId();
         messageObject.addProperty("sessionId", fromId);
-        TextMessage message = new TextMessage(messageObject.getAsString());
+        TextMessage message = new TextMessage(messageObject.toString());
         getAllViewers().forEach(viewerSession -> {
             try {
                 closeDanglingSession(viewerSession);
