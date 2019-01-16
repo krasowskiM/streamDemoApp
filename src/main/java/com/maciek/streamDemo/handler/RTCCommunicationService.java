@@ -1,5 +1,6 @@
 package com.maciek.streamDemo.handler;
 
+import com.google.gson.JsonObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -17,14 +18,15 @@ class RTCCommunicationService {
     private static final String VIEWER = "viewer";
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
-
-    void propagateMessages(WebSocketSession session, TextMessage message) {
+    void propagateMessages(WebSocketSession session, JsonObject messageObject) {
         //presenter -> viewer
-        String id = session.getId();
+        String fromId = session.getId();
+        messageObject.addProperty("sessionId", fromId);
+        TextMessage message = new TextMessage(messageObject.getAsString());
         getAllViewers().forEach(viewerSession -> {
             try {
                 closeDanglingSession(viewerSession);
-                if (viewerSession.isOpen() && !id.equals(viewerSession.getId())) {
+                if (viewerSession.isOpen() && !fromId.equals(viewerSession.getId())) {
                     viewerSession.sendMessage(message);
                 }
             } catch (IOException e) {
@@ -34,7 +36,7 @@ class RTCCommunicationService {
         getAllPresenters().forEach(presenterSession -> {
             try {
                 closeDanglingSession(presenterSession);
-                if (presenterSession.isOpen() && !id.equals(presenterSession.getId())) {
+                if (presenterSession.isOpen() && !fromId.equals(presenterSession.getId())) {
                     presenterSession.sendMessage(message);
                 }
             } catch (IOException e) {

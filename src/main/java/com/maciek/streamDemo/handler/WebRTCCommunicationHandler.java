@@ -50,7 +50,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
             return;
         }
         System.out.println(String.format("Incoming message: {%s}", payload));
-        rtcCommunicationService.propagateMessages(session, message);
+        rtcCommunicationService.propagateMessages(session, jsonObject);
     }
 
 }
