@@ -20,24 +20,24 @@ class RTCCommunicationService {
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
     void propagateMessages(WebSocketSession session, JsonObject messageObject) {
-        JsonElement sdp = messageObject.get("sdp");
+//        JsonElement sdp = messageObject.get("sdp");
         String fromId = session.getId();
-        messageObject.addProperty("sessionId", fromId);
+//        messageObject.addProperty("sessionId", fromId);
         TextMessage message = new TextMessage(messageObject.toString());
-        if (sdp != null) {
-            JsonObject sdpJsonObject = sdp.getAsJsonObject();
-            JsonElement type = sdpJsonObject.get("type");
-            if (type != null) {
-                String typeAsString = type.getAsString();
-                if ("answer".equals(typeAsString)) {
-                    propagateToPresenters(fromId, message);
-                    return;
-                } else {
-                    propagateToViewers(fromId, message);
-                    return;
-                }
-            }
-        }
+//        if (sdp != null) {
+//            JsonObject sdpJsonObject = sdp.getAsJsonObject();
+//            JsonElement type = sdpJsonObject.get("type");
+//            if (type != null) {
+//                String typeAsString = type.getAsString();
+//                if ("answer".equals(typeAsString)) {
+//                    propagateToPresenters(fromId, message);
+//                    return;
+//                } else {
+//                    propagateToViewers(fromId, message);
+//                    return;
+//                }
+//            }
+//        }
         //presenter -> viewer
         getAllViewers().forEach(viewerSession -> {
             try {
