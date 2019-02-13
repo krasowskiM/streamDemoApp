@@ -19,7 +19,7 @@ public class WebRTCCommunicationHandler extends TextWebSocketHandler {
     private static final String VIEWER = "viewer";
     private static final String HELLO_MESSAGE = "helloMessage";
     private static final String BEAT_MESSAGE = "beatMessage";
-    private static final String OK = "OK";
+    private static final String OK = "{\"response\": 'OK'}";
     private static Long ID = 1L;
     private final RTCCommunicationService rtcCommunicationService;
 
